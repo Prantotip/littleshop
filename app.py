@@ -11,9 +11,11 @@ def big_message(s):
     ]
     return "\n".join(content)
 
+
 def format_item(left, right):
     left_limit = WIDTH - len(right) - 1
     content = []
+
     while left:
         current = left[:left_limit]
         left = left[left_limit:]
@@ -32,9 +34,12 @@ def format_item(left, right):
         content.append(before_last_space)
         after_last_space = words[-1]
         left = after_last_space + left
-    last_line = content[-1].ljust(left_limit) + ' ' + right
+
+    last_line = content[-1].ljust(left_limit) + " " + right
+
     if len(content) == 1:
         return last_line
+
     return "\n".join(content[:-1]) + "\n" + last_line
 
 
@@ -63,6 +68,7 @@ class Receipt:
             big_message("Welcome to our shop!"),
             "",
         ]
+
         for name, count in self.content.items():
             if count > 1:
                 left = "{} x {}".format(name, count)
@@ -80,6 +86,7 @@ class Receipt:
         content.append(format_item("Total:", str(total)))
         content.append("")
         content.append(big_message("Thank you!"))
+
         return "\n".join(content)
 
 
@@ -92,4 +99,5 @@ if __name__ == "__main__":
     shop_1_receipt.add_line("Beer", 4)
     shop_1_receipt.add_line("Cigaret", 3)
     shop_1_receipt.add_line("Fish", 2)
+
     print(shop_1_receipt.render())
