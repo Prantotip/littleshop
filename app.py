@@ -52,7 +52,10 @@ class Receipt:
         self.content = {}
 
     def add_line(self, name, count):
-        self.content[name] = count
+        if name in self.content:
+            self.content[name] += count
+        else:
+            self.content[name] = count
 
     def render(self):
         total = 0
