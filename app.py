@@ -11,7 +11,6 @@ def big_message(s):
     ]
     return "\n".join(content)
 
-
 def format_item(left, right):
     left_limit = WIDTH - len(right) - 1
     content = []
@@ -43,7 +42,7 @@ class Market:
     def __init__(self, goods):
         self.goods = goods
 
-    def add_good(self, name: str, price):
+    def add_good(self, name, price):
         self.goods[name] = price
 
 
@@ -90,5 +89,4 @@ if __name__ == "__main__":
     shop_1_receipt.add_line("Beer", 4)
     shop_1_receipt.add_line("Cigaret", 3)
     shop_1_receipt.add_line("Fish", 2)
-
     print(shop_1_receipt.render())
