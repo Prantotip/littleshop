@@ -1,3 +1,6 @@
+from datetime import datetime
+
+
 WIDTH = 40
 
 
@@ -55,6 +58,8 @@ class Receipt:
     def __init__(self, market):
         self.market = market
         self.content = {}
+        self.start_dt = datetime.now()
+
 
     def add_line(self, name, count):
         if name in self.content:
@@ -69,6 +74,10 @@ class Receipt:
             "",
         ]
 
+        content.append(
+            self.start_dt.strftime("%d/%m/%Y %H:%M:%S").rjust(WIDTH)
+        )
+        content.append("")
         for name, count in self.content.items():
             if count > 1:
                 left = "{} x {}".format(name, count)
