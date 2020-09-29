@@ -2,6 +2,7 @@ import unittest
 
 from app import (
     big_message,
+    format_item,
     WIDTH,
 )
 
@@ -22,7 +23,15 @@ class BigMessageTestCase(unittest.TestCase):
         test_string_centered = test_string.center(WIDTH)
         result = big_message(test_string)
         self.assertEqual(result.split("\n")[2], test_string_centered)
-        
+
+
+class FormatItemTestCase(unittest.TestCase):
+    def test_short_left(self):
+        left = "Some test"
+        right = "I need some sleep"
+        spaces_count = WIDTH - len(left) - len(right)
+        result = format_item(left, right)
+        self.assertEqual(result, left + " "*spaces_count + right)
 
 if __name__ == '__main__':
     unittest.main()
