@@ -2,6 +2,7 @@ from datetime import datetime
 
 
 WIDTH = 40
+MIN_LEFT_LIMIT = 10
 
 
 def big_message(s):
@@ -18,6 +19,13 @@ def big_message(s):
 def format_item(left, right):
     left_limit = WIDTH - len(right) - 1
     content = []
+
+    if left_limit < MIN_LEFT_LIMIT:
+        raise ValueError(
+            "Right must be {} characters or less".format(
+                WIDTH - MIN_LEFT_LIMIT - 1
+            )
+        )
 
     while left:
         current = left[:left_limit]
