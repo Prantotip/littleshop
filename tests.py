@@ -4,6 +4,7 @@ from app import (
     big_message,
     format_item,
     WIDTH,
+    MIN_LEFT_LIMIT,
 )
 
 
@@ -32,6 +33,43 @@ class FormatItemTestCase(unittest.TestCase):
         spaces_count = WIDTH - len(left) - len(right)
         result = format_item(left, right)
         self.assertEqual(result, left + " "*spaces_count + right)
+
+    def test_middle_left(self):
+        left = "Some test for our test"
+        right = "I need some sleep"
+        spaces_count = WIDTH - len(left) - len(right)
+        result = format_item(left, right)
+        self.assertEqual(result, left + " "*spaces_count + right)
+
+    def test_long_left(self):
+        left = (
+            "Some test for our test I need some sleep "
+            "Some test for our test I need some sleep"
+        )
+        right = "I need some sleep"
+        spaces_count = WIDTH - len(left) - len(right)
+        result = format_item(left, right)
+
+        if WIDTH < 99:
+            self.assertIn("\n", result)
+        else:
+            self.assertNotIn("\n", result)
+
+        self.assertTrue(result.endswith(right))
+
+    def test_exception(self):
+        left = "Some test for our test, I need some sleep"
+        right = "I"*WIDTH
+        spaces_count = WIDTH - len(left) - len(right)
+        with self.assertRaises(ValueError) as cm:
+            format_item(left, right)
+        self.assertEqual(
+            str(cm.exception),
+            "Right must be {} characters or less".format(
+                WIDTH - MIN_LEFT_LIMIT - 1
+            )
+        )
+
 
 if __name__ == '__main__':
     unittest.main()
