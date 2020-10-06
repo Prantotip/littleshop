@@ -17,8 +17,8 @@ class BigMessageTestCase(unittest.TestCase):
 
     def test_lines_count(self):
         result = big_message("Some test for our test")
-        lines_count = result.count("\n")
-        self.assertEqual(lines_count, 4)
+        line_breaks = result.count("\n")
+        self.assertEqual(line_breaks, 4)
 
     def test_content(self):
         test_string = "Some test for our test"
