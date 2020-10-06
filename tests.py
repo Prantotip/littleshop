@@ -6,6 +6,7 @@ from app import (
     WIDTH,
     MIN_LEFT_LIMIT,
     Market,
+    Receipt,
 )
 
 
@@ -78,6 +79,40 @@ class MarketTestCase(unittest.TestCase):
         self.assertFalse(market.goods)
         market.add_good(name="Beer", price=39)
         self.assertEqual(market.goods["Beer"], 39)
+
+
+class ReceiptTestCase(unittest.TestCase):
+    def setUp(self):
+        self.market = Market(goods={
+            "Beer": 39, "Fish": 19
+        })
+
+    def test_add_line(self):
+        receipt = Receipt(self.market)
+        self.assertFalse(receipt.content)
+        receipt.add_line(name="Beer", count=3)
+        self.assertEqual(receipt.content["Beer"], 3)
+        receipt.add_line(name="Fish", count=5)
+        self.assertEqual(receipt.content["Beer"], 3)
+        self.assertEqual(receipt.content["Fish"], 5)
+        receipt.add_line(name="Beer", count=3)
+        self.assertEqual(receipt.content["Beer"], 6)
+        self.assertEqual(receipt.content["Fish"], 5)
+
+    def test_render_one_good(self):
+        receipt = Receipt(self.market)
+        receipt.add_line(name="Beer", count=3)
+        result = receipt.render()
+        result_list = result.split("\n")
+        self.assertEqual(len(result_list), 20)
+        good_line = result_list[8]
+        good_line_list = good_line.split()
+        self.assertEqual(len(good_line), WIDTH)
+        self.assertEqual(good_line_list, ["Beer", "x", "3", "117"])
+        total_line = result_list[13]
+        total_line_list = total_line.split()
+        self.assertEqual(len(total_line), WIDTH)
+        self.assertEqual(total_line_list, ["Total:", "117"])
 
 
 if __name__ == "__main__":
