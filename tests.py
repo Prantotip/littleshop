@@ -5,6 +5,7 @@ from app import (
     format_item,
     WIDTH,
     MIN_LEFT_LIMIT,
+    Market,
 )
 
 
@@ -69,6 +70,14 @@ class FormatItemTestCase(unittest.TestCase):
                 WIDTH - MIN_LEFT_LIMIT - 1
             )
         )
+
+
+class MarketTestCase(unittest.TestCase):
+    def test_add_good(self):
+        market = Market(goods={})
+        self.assertFalse(market.goods)
+        market.add_good(name="Beer", price=39)
+        self.assertEqual(market.goods["Beer"], 39)
 
 
 if __name__ == '__main__':
